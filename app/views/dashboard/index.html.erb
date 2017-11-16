@@ -2,16 +2,16 @@
   <div class="row" >
       <div class="col-md-6"style="border:1px solid gray;border-radius:10px;margin: 1vw 1vw 1vw 3vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
         <div class="row">
-          <h5 style='margin:1vw 0vw 0vw 1vw';>Past 24 Hours</h5>
+          <h5 style='margin:1vw 0vw 0vw 1vw'>Current Stats</h5>
         </div>
         <div class="row">
         <div class="col-md-3" style="border-right:1px solid lightgray">
-          <h4 class="text-center">45</h4>
+          <h4 class="text-center"><%=@dashboard.length%></h4>
           <h5 class='text-center' style='color:gray'>Jobs Running</h5>
         </div>
         <div class="col-md-3" style="border-right:1px solid lightgray">
-          <h4 class="text-center">2</h4>
-          <h5 class='text-center' style='color:gray'>Successful Runs</h5>
+          <h4 class="text-center"><%=@last_changed.label%></h4>
+          <h5 class='text-center' style='color:gray'>Recently Changed</h5>
         </div>
         <div class="col-md-3" style="border-right:1px solid lightgray">
           <h4 class="text-center">25</h4>
@@ -26,7 +26,17 @@
         <h5 style="height:2vw"></h5>
       </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3"style="border:1px solid gray;border-radius:10px;margin: 1vw 1vw 1vw 3vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
+      <div class="col-md-8" >
+        <h5 style='margin:1vw 0vw 0vw 1vw'> Storage Available</h5>
+        <h4 class="text-center" style ='border-right:1px solid lightgray' id='percent'>%</h4>
+        <progress id='progress' value="" max="70" style="width:95%;"></progress>
+      </div>
+      <div class="col-md-4">
+        <img id='green' src ="https://i.imgur.com/m5Rqxdf.png" style='margin: 1vw 0vw 0vw 0vw;width:100%'>
+        <img id='yellow' src ="https://i.imgur.com/OBUbMyH.png" style='margin: 1vw 0vw 0vw 0vw;width:100%'>
+        <img id='red' src ="https://i.imgur.com/Og8RigL.png" style='margin: 1vw 0vw 0vw 0vw;width:100%'>
+      </div>
     </div>
   </div>
   <div class="row">
@@ -38,11 +48,16 @@
           <label>Turn On Live Feed <input type = "checkbox" id="check_pie"></input></label>
         </div>
         <div class="col-md-5" style='margin-top:5vh'>
-          <ul style="list-style: none;">
+          <ul id='d-list' style="list-style: none;">
             <%@dashboard.each do |d|%>
-            <li><span class="glyphicon glyphicon-th-large" style="color:<%=d.color%>"></span> <%=d.label%> : <%=d.value%></li><br>
+            <li id='<%=d.id%>'><span class="glyphicon glyphicon-th-large" style="color:<%=d.color%>"></span> <%=d.label%> : <%=d.value%>
+              <%= link_to "/dashboard/#{d.id}", data: {:confirm => 'Are you sure you want to delete this Project?', :toggle => "tooltip"}, title: "Delete", method: :delete, class: "danger" do %>
+                <span class="glyphicon glyphicon-trash"></span>
+              <% end %>
+              </li><br>
             <%end%>
           </ul>
+          <button class='btn-sm btn-success' id='modal-button'>New Project</button>
         </div>
       </div>
     </div>
@@ -61,11 +76,32 @@
       </div>
     </div>
   </div>
-
-
 </div>
 
-
+<div class="modal fade" id="myModal" role="dialog" style="margin: 0 auto;">
+    <div class="modal-dialog" style='margin-left: -15vw'>
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h4>New Project
+          <button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+        </div>
+        <div class="modal-body">
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token%>
+            <div class="form-group">
+              <label for="reason"> Name:</label>
+              <input class="form-control" value="" id="label"></input>
+              <label for="reason"> Color:</label>
+              <input class="form-control" value="" id="color"></input>
+              <label for="reason"> Value:</label>
+              <input class="form-control" value="" id="value"></input>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" id="modal-submit"class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <script>
 var chart = c3.generate({
       bindto: '#chart',
@@ -125,7 +161,16 @@ var chart = c3.generate({
     });
   })
 
-
+var contentArray = []
+'<%@dashboard.each do |d|%>'
+contentArray.push(
+      {
+				"label": '<%= d.label%>',
+				"value": parseInt('<%= d.value%>'),
+				"color": '<%= d.color%>',
+			},
+    );
+    '<%end%>'
 var pie = new d3pie("pieChart", {
 	"header": {
 		"title": {
@@ -143,7 +188,7 @@ var pie = new d3pie("pieChart", {
 		"titleSubtitlePadding": 10
 	},
 	"footer": {
-		"text": "* One of the sections changes value in the database, and is displayed in the graph",
+		"text": "* Value changed in DB, and then dynamically displayed here",
 		"color": "#999999",
 		"fontSize": 12,
 		"font": "open sans",
@@ -162,38 +207,7 @@ var pie = new d3pie("pieChart", {
 			"valueType": "value",
 			"color": "#cab4b4"
 		},
-		"content": [
-			{
-				"label": '<%= @dashboard[0].label%>',
-				"value": parseInt('<%= @dashboard[0].value%>'),
-				"color": '<%= @dashboard[0].color%>',
-			},
-      {
-        "label": '<%= @dashboard[1].label%>',
-        "value": parseInt('<%= @dashboard[1].value%>'),
-        "color": '<%= @dashboard[1].color%>',
-      },
-      {
-        "label": '<%= @dashboard[2].label%>',
-        "value": parseInt('<%= @dashboard[2].value%>'),
-        "color": '<%= @dashboard[2].color%>',
-      },
-      {
-        "label": '<%= @dashboard[3].label%>',
-        "value": parseInt('<%= @dashboard[3].value%>'),
-        "color": '<%= @dashboard[3].color%>',
-      },
-      {
-        "label": '<%= @dashboard[4].label%>',
-        "value": parseInt('<%= @dashboard[4].value%>'),
-        "color": '<%= @dashboard[4].color%>',
-      },
-      {
-        "label": '<%= @dashboard[5].label%>',
-        "value": parseInt('<%= @dashboard[5].value%>'),
-        "color": '<%= @dashboard[5].color%>',
-      },
-		]
+		"content":contentArray
 	},
   "labels": {
   		"outer": {

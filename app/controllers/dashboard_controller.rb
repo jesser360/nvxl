@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
 
   def index
     @dashboard = Dashboard.all.order('value')
+    @last_changed = Dashboard.all.order('updated_at').last
     @response = HTTParty.get("http://api.openweathermap.org/data/2.5/forecast/daily?zip=#{94536}&cnt=8&APPID=56816b6400cf26a5068b34d20251372f")
     @chicago_response = HTTParty.get("http://api.openweathermap.org/data/2.5/forecast/daily?zip=#{60007}&cnt=8&APPID=56816b6400cf26a5068b34d20251372f")
     @texas_response = HTTParty.get("http://api.openweathermap.org/data/2.5/forecast/daily?zip=#{73301}&cnt=8&APPID=56816b6400cf26a5068b34d20251372f")
@@ -37,5 +38,20 @@ class DashboardController < ApplicationController
     @dashboard = Dashboard.find_by_id(params[:id])
     @dashboard.value = params[:value]
     @dashboard.save
+  end
+
+  def create
+    @dashboard = Dashboard.new()
+    @dashboard.value = params[:value]
+    @dashboard.color= params[:color]
+    @dashboard.label = params[:label]
+    @dashboard.save
+  end
+
+  def delete
+    @dashboard = Dashboard.find_by_id(params[:id])
+    @dashboard.delete
+    redirect_back(fallback_location: root_path)
+
   end
 end
