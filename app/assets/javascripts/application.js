@@ -11,12 +11,56 @@
 // about supported directives.
 //
 //= require jquery-core
+//= require jquery-ui-core
 //= require bootstrap
 //= require d3pie.min
+//= require c3
+//= require d3
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
 
+  $(document).ready(function(){
+    if($.cookie('checked') == 'true'){
+      $("#check_pie").prop("checked", true);
+      (function loop() {
+        var rand = Math.round(Math.random() * (3000 - 500)) + 1000;
+        setTimeout(function() {
+          randomize();
+          loop();
+        }, rand);
+      }());
+    }
+    function randomize() {
+      var id = Math.floor(Math.random() * 6) + 2
+      var new_value = Math.floor(Math.random() * 5) + 1
+      var data ={}
+      data['value'] = new_value
+      $.ajax({
+      url: "/dashboard/"+id,
+      dataType: 'json',
+      method: "PATCH",
+      data: data,
+      success: function(result){
+        window.location.href = '/';
+      }
+      })
+    };
+    $('#check_pie').on('click',function(){
+      if($('#check_pie').is(':checked')){
+        $.cookie('checked',true, {path: '/'})
+        (function loop() {
+          var rand = Math.round(Math.random() * (3000 - 500)) + 1000;
+          setTimeout(function() {
+            randomize();
+            loop();
+          }, rand);
+        }());
+      }else{
+        $.cookie('checked',false, {path: '/'})
+      }
+    })
+  })
 /*!
 * d3pie
 * @author Ben Keen

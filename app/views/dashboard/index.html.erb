@@ -2,18 +2,85 @@
 <div class="row">
   <div class ="col-md-6">
     <h1>Pie here</h1>
+    <label>Turn On Live Feed <input type = "checkbox" id="check_pie"></input></label>
+    <div id="pieChart">
+    </div>
   </div>
+
   <div class ="col-md-6">
-    <h1>Pie here</h1>
+    <h1>Graph here</h1>
+    <div id="chart"></div>
+    <!-- <label>Enter Zipcode <input id="zipcode" type ="text"></input></label> -->
+    <button id="fremont">Fremont</button>
+    <button id="chicago">Chicago</button>
+    <button id="texas">Texas</button>
   </div>
 </div>
-
-
-<div id="pieChart">
-
-</div>
+<%=@day%>
+<%=@night%>
+<h1>BREAK</h1>
+<%=@response%>
 
 <script>
+var chart = c3.generate({
+      bindto: '#chart',
+    data: {
+      columns: [
+        ['Fremont Day Temp', '<%=@day[1]%>', '<%=@day[2]%>', '<%=@day[3]%>', '<%=@day[4]%>', '<%=@day[5]%>', '<%=@day[6]%>','<%=@day[7]%>'],
+        ['Fremont Night Temp', '<%=@night[1]%>', '<%=@night[2]%>', '<%=@night[3]%>', '<%=@night[4]%>', '<%=@night[5]%>', '<%=@night[6]%>','<%=@night[7]%>']
+      ]
+    },
+    axis: {
+      y: {
+        label: {
+          text: 'Temperature ',
+          position: 'outer-middle'
+        }
+      },
+      x: {
+        show: true,
+        label: {
+          text: 'Days in Future',
+          position: 'outer-middle'
+        }
+      }
+    }
+});
+  $('#chicago').on('click',function(){
+    chart.load({
+      columns: [
+        ['Chicago Day Temp', '<%=@c_day[1]%>', '<%=@c_day[2]%>', '<%=@c_day[3]%>', '<%=@c_day[4]%>', '<%=@c_day[5]%>', '<%=@c_day[6]%>','<%=@c_day[7]%>'],
+        ['Chicago Night Temp', '<%=@c_night[1]%>', '<%=@c_night[2]%>', '<%=@c_night[3]%>', '<%=@c_night[4]%>', '<%=@c_night[5]%>', '<%=@c_night[6]%>','<%=@c_night[7]%>']
+      ]
+    });
+    chart.unload({
+      ids: ['Fremont Day Temp', 'Fremont Night Temp','Texas Day Temp','Texas Night Temp']
+    });
+  })
+  $('#fremont').on('click',function(){
+    chart.load({
+      columns: [
+        ['Fremont Day Temp', '<%=@day[1]%>', '<%=@day[2]%>', '<%=@day[3]%>', '<%=@day[4]%>', '<%=@day[5]%>', '<%=@day[6]%>','<%=@day[7]%>'],
+        ['Fremont Night Temp', '<%=@night[1]%>', '<%=@night[2]%>', '<%=@night[3]%>', '<%=@night[4]%>', '<%=@night[5]%>', '<%=@night[6]%>','<%=@night[7]%>']
+      ]
+    });
+    chart.unload({
+      ids: ['Chicago Day Temp', 'Chicago Night Temp','Texas Day Temp','Texas Night Temp']
+    });
+  })
+  $('#texas').on('click',function(){
+    chart.load({
+      columns: [
+        ['Texas Day Temp', '<%=@t_day[1]%>', '<%=@t_day[2]%>', '<%=@t_day[3]%>', '<%=@t_day[4]%>', '<%=@t_day[5]%>', '<%=@t_day[6]%>','<%=@t_day[7]%>'],
+        ['Texas Night Temp', '<%=@t_night[1]%>', '<%=@t_night[2]%>', '<%=@t_night[3]%>', '<%=@t_night[4]%>', '<%=@t_night[5]%>', '<%=@t_night[6]%>','<%=@t_night[7]%>']
+      ]
+    });
+    chart.unload({
+      ids: ['Chicago Day Temp', 'Chicago Night Temp','Fremont Day Temp','Fremont Night Temp']
+    });
+  })
+
+
 var pie = new d3pie("pieChart", {
 	"header": {
 		"title": {
@@ -51,40 +118,35 @@ var pie = new d3pie("pieChart", {
 		},
 		"content": [
 			{
-				"label": "Ready",
-				"value": 3,
-				"color": "#168309",
+				"label": '<%= @dashboard[0].label%>',
+				"value": parseInt('<%= @dashboard[0].value%>'),
+				"color": '<%= @dashboard[0].color%>',
 			},
-			{
-				"label": "Waiting",
-				"value": 2,
-				"color": "#94993e"
-			},
-			{
-				"label": "Failed",
-				"value": 5,
-				"color": "#f80025"
-			},
-			{
-				"label": "Off-by-one errors",
-				"value": 3,
-				"color": "#111111"
-			},
-			{
-				"label": "Stand by",
-				"value": 4,
-				"color": "#8633b3"
-			},
-			{
-				"label": "Proccesed",
-				"value": 1,
-				"color": "#646464"
-			},
-			{
-				"label": "Bought",
-				"value": 4,
-				"color": "#1b1dd4"
-			}
+      {
+        "label": '<%= @dashboard[1].label%>',
+        "value": parseInt('<%= @dashboard[1].value%>'),
+        "color": '<%= @dashboard[1].color%>',
+      },
+      {
+        "label": '<%= @dashboard[2].label%>',
+        "value": parseInt('<%= @dashboard[2].value%>'),
+        "color": '<%= @dashboard[2].color%>',
+      },
+      {
+        "label": '<%= @dashboard[3].label%>',
+        "value": parseInt('<%= @dashboard[3].value%>'),
+        "color": '<%= @dashboard[3].color%>',
+      },
+      {
+        "label": '<%= @dashboard[4].label%>',
+        "value": parseInt('<%= @dashboard[4].value%>'),
+        "color": '<%= @dashboard[4].color%>',
+      },
+      {
+        "label": '<%= @dashboard[5].label%>',
+        "value": parseInt('<%= @dashboard[5].value%>'),
+        "color": '<%= @dashboard[5].color%>',
+      },
 		]
 	},
   "labels": {
@@ -132,7 +194,7 @@ var pie = new d3pie("pieChart", {
 	},
 	"misc": {
 		"colors": {
-			"segmentStroke": "#000000"
+			"segmentStroke": "#000000",
 		}
 	},
 	"callbacks": {}
