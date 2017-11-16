@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
   include HTTParty
 
   def index
-    @dashboard = Dashboard.all
+    @dashboard = Dashboard.all.order('value')
     @response = HTTParty.get("http://api.openweathermap.org/data/2.5/forecast/daily?zip=#{94536}&cnt=8&APPID=56816b6400cf26a5068b34d20251372f")
     @chicago_response = HTTParty.get("http://api.openweathermap.org/data/2.5/forecast/daily?zip=#{60007}&cnt=8&APPID=56816b6400cf26a5068b34d20251372f")
     @texas_response = HTTParty.get("http://api.openweathermap.org/data/2.5/forecast/daily?zip=#{73301}&cnt=8&APPID=56816b6400cf26a5068b34d20251372f")

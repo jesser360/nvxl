@@ -1,25 +1,70 @@
+<div class="container-fluid" style="height:100%">
+  <div class="row" >
+      <div class="col-md-6"style="border:1px solid gray;border-radius:10px;margin: 1vw 1vw 1vw 3vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
+        <div class="row">
+          <h5 style='margin:1vw 0vw 0vw 1vw';>Past 24 Hours</h5>
+        </div>
+        <div class="row">
+        <div class="col-md-3" style="border-right:1px solid lightgray">
+          <h4 class="text-center">45</h4>
+          <h5 class='text-center' style='color:gray'>Jobs Running</h5>
+        </div>
+        <div class="col-md-3" style="border-right:1px solid lightgray">
+          <h4 class="text-center">2</h4>
+          <h5 class='text-center' style='color:gray'>Successful Runs</h5>
+        </div>
+        <div class="col-md-3" style="border-right:1px solid lightgray">
+          <h4 class="text-center">25</h4>
+          <h5 class='text-center' style='color:gray'>Violations</h5>
+        </div>
+        <div class="col-md-3">
+          <h4 class="text-center">4</h4>
+          <h5 class='text-center' style='color:gray'>Errors</h5>
+        </div>
+      </div>
+      <div class="row">
+        <h5 style="height:2vw"></h5>
+      </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+  <div class="row">
+    <div class ="col-md-5" style="border:1px solid gray;border-radius:10px;margin:1vw 1vw 1vw 3vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
+      <div class="row">
+        <div class="col-md-7">
+          <div id="pieChart">
+          </div>
+          <label>Turn On Live Feed <input type = "checkbox" id="check_pie"></input></label>
+        </div>
+        <div class="col-md-5" style='margin-top:5vh'>
+          <ul style="list-style: none;">
+            <%@dashboard.each do |d|%>
+            <li><span class="glyphicon glyphicon-th-large" style="color:<%=d.color%>"></span> <%=d.label%> : <%=d.value%></li><br>
+            <%end%>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-<div class="row">
-  <div class ="col-md-6">
-    <h1>Pie here</h1>
-    <label>Turn On Live Feed <input type = "checkbox" id="check_pie"></input></label>
-    <div id="pieChart">
+    <div class ="col-md-6" style="border:1px solid gray;border-radius:10px;margin:1vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
+      <h4 class="text-center">Live Weather Report</h4>
+      <div class="row">
+        <div class="col-md-9">
+          <div id="chart" style="height:39.5vh"></div>
+        </div>
+        <div class="col-md-3">
+          <button style="margin-bottom:1vw"class='btn-lg btn-success' id="fremont">Fremont</button>
+          <button style="margin-bottom:1vw"class='btn-lg btn-success' id="chicago">Chicago</button>
+          <button style="margin-bottom:1vw"class='btn-lg btn-success' id="texas">Texas</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class ="col-md-6">
-    <h1>Graph here</h1>
-    <div id="chart"></div>
-    <!-- <label>Enter Zipcode <input id="zipcode" type ="text"></input></label> -->
-    <button id="fremont">Fremont</button>
-    <button id="chicago">Chicago</button>
-    <button id="texas">Texas</button>
-  </div>
+
 </div>
-<%=@day%>
-<%=@night%>
-<h1>BREAK</h1>
-<%=@response%>
+
 
 <script>
 var chart = c3.generate({
@@ -85,7 +130,7 @@ var pie = new d3pie("pieChart", {
 	"header": {
 		"title": {
 			"text": "Projects",
-			"fontSize": 34,
+			"fontSize": 20,
 			"font": "courier"
 		},
 		"subtitle": {
@@ -98,16 +143,17 @@ var pie = new d3pie("pieChart", {
 		"titleSubtitlePadding": 10
 	},
 	"footer": {
-		"text": "* This is based on incoming data",
+		"text": "* One of the sections changes value in the database, and is displayed in the graph",
 		"color": "#999999",
-		"fontSize": 10,
+		"fontSize": 12,
 		"font": "open sans",
 		"location": "bottom-left"
 	},
 	"size": {
-		"canvasWidth": 590,
+		"canvasWidth": 300,
+		"canvasHeight": 300,
 		"pieInnerRadius": "84%",
-		"pieOuterRadius": "51%"
+		"pieOuterRadius": "75%"
 	},
 	"data": {
 		"sortOrder": "label-desc",
@@ -155,7 +201,6 @@ var pie = new d3pie("pieChart", {
   		},
   		"inner": {
   			"format": "none",
-  			"hideWhenLessThanPercentage": 22
   		},
   		"mainLabel": {
   			"fontSize": 12

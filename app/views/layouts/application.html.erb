@@ -10,10 +10,33 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://clientstaging21.com/wp-content/themes/insta/style.css" type="text/css" media="screen" />
 
   </head>
-    <body>
+    <body style="background-image: url('http://ftextures.com/textures/light-green-ceramic-tile.jpg')">
+      <section class="head" style ='background-color:gray;width:100%;height:10vh;margin-top:-.5vw;padding:0vw 1vw 0vw 1vw'>
+  <div class="logo">
+    <h2><a href="#"><img src="https://www.graphicsprings.com/filestorage/stencils/29c2824f9ba81b8e219075f347cf5e6b.svg" style="width:3vw" alt="Project  Software" /> Project Software</a></h2>
+  </div><!--/logo-->
+  <div class="top">
+    <div class="tc"><h6 style="display: none;">Call</h6>			<div class="textwidget"><p><a href="#"> Call (877) 123-1238</a></p>
+</div>
+</div><div class="tc"><h6 style="display: none;">Live Chat</h6>			<div class="textwidget"><p><a id="full-view-button" href="javascript:void(null)" onclick="parent.LC_API.open_chat_window({source:'minimized'})"> Live Chat</a></p>
+</div>
+</div><div class="tc"><h6 style="display: none;">Login</h6>			<div class="textwidget"><p><a href="#"> Subscriber Login</a></p>
+</div>
+</div>			</div><!--/top-->
 
+          </section><!--/head-->
     <%= yield %>
+    <section class="foot">
+<div class="copyright" style="width:100%">
+  <div >
+    <p style="color:gray">2017 All Rights Reserved.</p>
+  </div><!--/left-->
+  <div class="right">
+          </div><!--/right-->
+</div><!--/copyright-->
   </body>
 </html>

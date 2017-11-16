@@ -12,15 +12,20 @@
 //
 //= require jquery-core
 //= require jquery-ui-core
+//= require d3
 //= require bootstrap
 //= require d3pie.min
 //= require c3
-//= require d3
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
 
   $(document).ready(function(){
+
+    $('#p0_segment0').on('click',function(){
+      console.log('hey')
+    })
+
     if($.cookie('checked') == 'true'){
       $("#check_pie").prop("checked", true);
       (function loop() {
@@ -32,7 +37,7 @@
       }());
     }
     function randomize() {
-      var id = Math.floor(Math.random() * 6) + 2
+      var id = Math.floor(Math.random() * 10) + 1
       var new_value = Math.floor(Math.random() * 5) + 1
       var data ={}
       data['value'] = new_value
