@@ -1,1 +1,141 @@
-<h1>DASHBOARD</h1>
+
+<div class="row">
+  <div class ="col-md-6">
+    <h1>Pie here</h1>
+  </div>
+  <div class ="col-md-6">
+    <h1>Pie here</h1>
+  </div>
+</div>
+
+
+<div id="pieChart">
+
+</div>
+
+<script>
+var pie = new d3pie("pieChart", {
+	"header": {
+		"title": {
+			"text": "Projects",
+			"fontSize": 34,
+			"font": "courier"
+		},
+		"subtitle": {
+			"text": "Current Status",
+			"color": "#999999",
+			"fontSize": 10,
+			"font": "courier"
+		},
+		"location": "pie-center",
+		"titleSubtitlePadding": 10
+	},
+	"footer": {
+		"text": "* This is based on incoming data",
+		"color": "#999999",
+		"fontSize": 10,
+		"font": "open sans",
+		"location": "bottom-left"
+	},
+	"size": {
+		"canvasWidth": 590,
+		"pieInnerRadius": "84%",
+		"pieOuterRadius": "51%"
+	},
+	"data": {
+		"sortOrder": "label-desc",
+		"smallSegmentGrouping": {
+			"enabled": true,
+			"valueType": "value",
+			"color": "#cab4b4"
+		},
+		"content": [
+			{
+				"label": "Ready",
+				"value": 3,
+				"color": "#168309",
+			},
+			{
+				"label": "Waiting",
+				"value": 2,
+				"color": "#94993e"
+			},
+			{
+				"label": "Failed",
+				"value": 5,
+				"color": "#f80025"
+			},
+			{
+				"label": "Off-by-one errors",
+				"value": 3,
+				"color": "#111111"
+			},
+			{
+				"label": "Stand by",
+				"value": 4,
+				"color": "#8633b3"
+			},
+			{
+				"label": "Proccesed",
+				"value": 1,
+				"color": "#646464"
+			},
+			{
+				"label": "Bought",
+				"value": 4,
+				"color": "#1b1dd4"
+			}
+		]
+	},
+  "labels": {
+  		"outer": {
+  			"pieDistance": 12
+  		},
+  		"inner": {
+  			"format": "none",
+  			"hideWhenLessThanPercentage": 22
+  		},
+  		"mainLabel": {
+  			"fontSize": 12
+  		},
+  		"percentage": {
+  			"color": "#999999",
+  			"fontSize": 11,
+  			"decimalPlaces": 0
+  		},
+  		"value": {
+  			"color": "#cccc43",
+  			"fontSize": 0
+  		},
+  		"lines": {
+  			"enabled": true,
+  			"color": "#777777"
+  		},
+  		"truncation": {
+  			"enabled": true
+  		}
+  	},
+	"tooltips": {
+		"enabled": true,
+		"type": "placeholder",
+		"string": "{label}: {percentage}%",
+		"styles": {
+			"fontSize": 15
+		}
+	},
+	"effects": {
+		"pullOutSegmentOnClick": {
+			"effect": "linear",
+			"speed": 400,
+			"size": 8
+		}
+	},
+	"misc": {
+		"colors": {
+			"segmentStroke": "#000000"
+		}
+	},
+	"callbacks": {}
+});
+
+</script>
