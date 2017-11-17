@@ -20,7 +20,6 @@
 //= require turbolinks
 //= require_tree .
   $(document).ready(function(){
-    $('#fremont-icons').removeClass('hidden');
 
     var available_ids = []
     $('#d-list li').each(function(){
