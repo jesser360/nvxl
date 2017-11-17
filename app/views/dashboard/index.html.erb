@@ -1,8 +1,8 @@
-<div class="container-fluid" style="height:100%">
+<div class="container-fluid" style="height:100%;width:100%">
   <div class="row" >
       <div class="col-md-6"style="border:1px solid gray;border-radius:10px;margin: 1vw 1vw 1vw 3vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
         <div class="row">
-          <h5 style='margin:1vw 0vw 0vw 1vw'>Current Stats</h5>
+          <h5 style='margin:1vw 0vw 0vw 1vw'>Current Status</h5>
         </div>
         <div class="row">
         <div class="col-md-3" style="border-right:1px solid lightgray">
@@ -10,7 +10,7 @@
           <h5 class='text-center' style='color:gray'>Jobs Running</h5>
         </div>
         <div class="col-md-3" style="border-right:1px solid lightgray">
-          <h4 class="text-center"><%=@last_changed.label%></h4>
+          <h4 class="text-center"><%=@last_changed.label rescue nil%></h4>
           <h5 class='text-center' style='color:gray'>Recently Changed</h5>
         </div>
         <div class="col-md-3" style="border-right:1px solid lightgray">
@@ -23,10 +23,10 @@
         </div>
       </div>
       <div class="row">
-        <h5 style="height:2vw"></h5>
+        <h5></h5>
       </div>
     </div>
-    <div class="col-md-3"style="border:1px solid gray;border-radius:10px;margin: 1vw 1vw 1vw 3vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
+    <div class="col-md-3"style="border:1px solid gray;border-radius:10px;margin: 1vw;padding-bottom:1vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
       <div class="col-md-8" >
         <h5 style='margin:1vw 0vw 0vw 1vw'> Storage Available</h5>
         <h4 class="text-center" style ='border-right:1px solid lightgray' id='percent'>%</h4>
@@ -38,43 +38,49 @@
         <img id='red' src ="https://i.imgur.com/Og8RigL.png" style='margin: 1vw 0vw 0vw 0vw;width:100%'>
       </div>
     </div>
+    <div class="col-md-2" style='margin:2vw 0vw 0vw 0vw'>
+      <button style="margin:5px;color:#676766" class='btn-md btn btn-success' id='modal-button'>New Project</button>
+      <%= link_to "Restore", '/dashboard/seed', class: "btn-md btn btn-success restore-btn" %>
+      <!-- <%= link_to "Delete All", '/dashboard/destroy_all', class: "btn-md btn btn-success restore-btn" %> -->
+    </div>
   </div>
   <div class="row">
-    <div class ="col-md-5" style="border:1px solid gray;border-radius:10px;margin:1vw 1vw 1vw 3vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
-      <div class="row">
-        <div class="col-md-7">
-          <div id="pieChart">
-          </div>
-          <label>Turn On Live Feed <input type = "checkbox" id="check_pie"></input></label>
-        </div>
-        <div class="col-md-5" style='margin-top:5vh'>
-          <ul id='d-list' style="list-style: none;">
-            <%@dashboard.each do |d|%>
-            <li id='<%=d.id%>'><span class="glyphicon glyphicon-th-large" style="color:<%=d.color%>"></span> <%=d.label%> : <%=d.value%>
-              <%= link_to "/dashboard/#{d.id}", data: {:confirm => 'Are you sure you want to delete this Project?', :toggle => "tooltip"}, title: "Delete", method: :delete, class: "danger" do %>
-                <span class="glyphicon glyphicon-trash"></span>
-              <% end %>
-              </li><br>
-            <%end%>
-          </ul>
-          <button class='btn-sm btn-success' id='modal-button'>New Project</button>
-        </div>
-      </div>
-    </div>
 
-    <div class ="col-md-6" style="border:1px solid gray;border-radius:10px;margin:1vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
+    <div class ="col-md-6" style="border:1px solid gray;border-radius:10px;margin:1vw 1vw 1vw 3vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
       <h4 class="text-center">Live Weather Report</h4>
       <div class="row">
         <div class="col-md-9">
           <div id="chart" style="height:39.5vh"></div>
         </div>
         <div class="col-md-3">
-          <button style="margin-bottom:1vw"class='btn-lg btn-success' id="fremont">Fremont</button>
-          <button style="margin-bottom:1vw"class='btn-lg btn-success' id="chicago">Chicago</button>
-          <button style="margin-bottom:1vw"class='btn-lg btn-success' id="texas">Texas</button>
+          <button style="margin-bottom:1vw"class='btn btn-primary btn-lg' id="fremont">Fremont</button><br>
+          <button style="margin-bottom:1vw"class='btn btn-primary btn-lg' id="chicago">Chicago</button><br>
+          <button style="margin-bottom:1vw"class='btn btn-primary btn-lg' id="texas">Texas</button><br>
         </div>
       </div>
     </div>
+
+    <div class ="col-md-5" style="border:1px solid gray;border-radius:10px;margin:1vw;background-image: url('https://i.imgur.com/1pLGxMy.png')">
+      <div class="row">
+        <div class="col-md-7">
+          <div id="pieChart">
+          </div>
+          <label>Turn On Live Feed <input type = "checkbox" id="check_pie"></input></label>
+        </div>
+        <div class="col-md-5 text-right" style='margin-top:5vh'>
+          <ul id='d-list' style="list-style: none;">
+            <%@dashboard.each do |d|%>
+            <li style ='font-size:1.5em'id='<%=d.id%>'><span class="glyphicon glyphicon-th-large" style="color:<%=d.color%>"></span> <%=d.label%> : <%=d.value%>
+              <%= link_to "/dashboard/#{d.id}", data: {:confirm => 'Are you sure you want to delete this Project?', :toggle => "tooltip"}, title: "Delete", method: :delete, class: "danger" do %>
+                <span class="glyphicon glyphicon-trash"></span>
+              <% end %>
+              </li><br>
+            <%end%>
+          </ul>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -175,13 +181,13 @@ var pie = new d3pie("pieChart", {
 	"header": {
 		"title": {
 			"text": "Projects",
-			"fontSize": 20,
+			"fontSize": 22,
 			"font": "courier"
 		},
 		"subtitle": {
 			"text": "Current Status",
 			"color": "#999999",
-			"fontSize": 10,
+			"fontSize": 14,
 			"font": "courier"
 		},
 		"location": "pie-center",
@@ -190,7 +196,7 @@ var pie = new d3pie("pieChart", {
 	"footer": {
 		"text": "* Value changed in DB, and then dynamically displayed here",
 		"color": "#999999",
-		"fontSize": 12,
+		"fontSize": 14,
 		"font": "open sans",
 		"location": "bottom-left"
 	},
@@ -198,7 +204,7 @@ var pie = new d3pie("pieChart", {
 		"canvasWidth": 300,
 		"canvasHeight": 300,
 		"pieInnerRadius": "84%",
-		"pieOuterRadius": "75%"
+		"pieOuterRadius": "100%"
 	},
 	"data": {
 		"sortOrder": "label-desc",

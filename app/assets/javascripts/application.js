@@ -47,6 +47,15 @@
       $('#green').hide()
     }
 
+    $('.restore-btn').on('click',function(){
+      $('#yellow').addClass('hidden')
+      $('red').addClass('hidden')
+      $('#green').addClass('hidden')
+      setTimeout(function(){
+        location.reload();
+      },5000)
+    })
+
     if($.cookie('checked') == 'true'){
       $("#check_pie").prop("checked", true);
       (function loop() {

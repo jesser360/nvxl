@@ -52,6 +52,16 @@ class DashboardController < ApplicationController
     @dashboard = Dashboard.find_by_id(params[:id])
     @dashboard.delete
     redirect_back(fallback_location: root_path)
+  end
 
+  def seed
+    Dashboard.destroy_all
+    Rails.application.load_seed
+    redirect_back(fallback_location: root_path)
+  end
+  
+  def destroy_all
+    Dashboard.destroy_all
+    redirect_back(fallback_location: root_path)
   end
 end
