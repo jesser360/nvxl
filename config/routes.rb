@@ -6,6 +6,5 @@ Rails.application.routes.draw do
   post '/dashboard', to: 'dashboard#create', via: :all
   delete '/dashboard/:id', to: 'dashboard#delete', via: :all
   match '/dashboard/seed', to: 'dashboard#seed', via: :all
-  match '/dashboard/destroy_all', to: 'dashboard#destroy_all', via: :all
 
 end

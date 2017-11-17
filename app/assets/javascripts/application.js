@@ -19,8 +19,9 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
-
   $(document).ready(function(){
+    $('#fremont-icons').removeClass('hidden');
+
     var available_ids = []
     $('#d-list li').each(function(){
       available_ids.push(this.id)
@@ -29,9 +30,9 @@
     if(available_ids.length < 7){
       var percent = (available_ids.length / 7).toString().substring(2,4)
     }else{
-      var percent = '100'
+      var percent = '0'
     }
-    $('#percent').prepend(percent);
+    $('#percent').prepend(100 - parseInt(percent));
 
     if((available_ids.length / 7) < .60){
       $('#yellow').hide()
@@ -48,12 +49,9 @@
     }
 
     $('.restore-btn').on('click',function(){
-      $('#yellow').addClass('hidden')
-      $('red').addClass('hidden')
-      $('#green').addClass('hidden')
       setTimeout(function(){
         location.reload();
-      },5000)
+      },3000)
     })
 
     if($.cookie('checked') == 'true'){
@@ -66,8 +64,20 @@
         }, rand);
       }());
     }
-    function randomize() {
+    var counter =0;
+    $('#open-pie-caret').click(function(){
+      counter++;
+      if (counter % 2 == 0){
+        $('.open-pie').slideToggle('slow');
+        $('#open-pie-caret').css({"-webkit-transform": "rotate(0deg)"});
 
+      }else{
+        $('#open-pie-caret').css({"-webkit-transform": "rotate(180deg)"});
+        $('.open-pie').slideToggle('slow');
+      }
+    });
+
+    function randomize() {
       var random = Math.floor(Math.random() * available_ids.length-1) + 1
       console.log(available_ids[random])
       var id = available_ids[random]

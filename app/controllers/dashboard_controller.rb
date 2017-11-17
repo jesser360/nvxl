@@ -11,26 +11,48 @@ class DashboardController < ApplicationController
     $i = 0
     @day = {}
     @night = {}
+    @icon = {}
+    @des = {}
+    @date = {}
+
     @c_day = {}
     @c_night = {}
+    @c_icon = {}
+    @c_des = {}
+    @c_date = {}
+
     @t_day = {}
     @t_night = {}
+    @t_icon = {}
+    @t_des = {}
+    @t_date = {}
+
     7.times do
       $i +=1
       @day_k = @response['list'][$i]['temp']['day']
       @day[$i] = ((1.8*(@day_k-273))+32).floor
       @night_k = @response['list'][$i]['temp']['night']
       @night[$i] = ((1.8*(@night_k-273))+32).floor
+      @icon[$i] = @response['list'][$i]['weather'][0]['icon']
+      @des[$i] = @response['list'][$i]['weather'][0]['description']
+      @date[$i] = Time.at(@response['list'][$i]['dt']).to_date.strftime("%m/%d")
 
       @c_day_k = @chicago_response['list'][$i]['temp']['day']
       @c_day[$i] = ((1.8*(@c_day_k-273))+32).floor
       @c_night_k = @chicago_response['list'][$i]['temp']['night']
       @c_night[$i] = ((1.8*(@c_night_k-273))+32).floor
+      @c_icon[$i] = @chicago_response['list'][$i]['weather'][0]['icon']
+      @c_des[$i] = @chicago_response['list'][$i]['weather'][0]['description']
+      @c_date[$i] = Time.at(@response['list'][$i]['dt']).to_date.strftime("%m/%d")
 
       @t_day_k = @texas_response['list'][$i]['temp']['day']
       @t_day[$i] = ((1.8*(@t_day_k-273))+32).floor
       @t_night_k = @texas_response['list'][$i]['temp']['night']
       @t_night[$i] = ((1.8*(@t_night_k-273))+32).floor
+      @t_icon[$i] = @texas_response['list'][$i]['weather'][0]['icon']
+      @t_des[$i] = @texas_response['list'][$i]['weather'][0]['description']
+      @t_date[$i] = Time.at(@response['list'][$i]['dt']).to_date.strftime("%m/%d")
+
     end
   end
 
@@ -55,13 +77,8 @@ class DashboardController < ApplicationController
   end
 
   def seed
-    Dashboard.destroy_all
     Rails.application.load_seed
     redirect_back(fallback_location: root_path)
   end
-  
-  def destroy_all
-    Dashboard.destroy_all
-    redirect_back(fallback_location: root_path)
-  end
+
 end
